@@ -72,6 +72,22 @@ def project_topk_linf(delta: torch.Tensor, eps: Optional[float], k: Optional[int
 
 这里的delta:torch.Tensor和这个函数-> torch.Tensor都是类型标注，对于python解释器没有影响，只是可以让IDE帮助进行代码提示，然后可以提升一定的可读性
 ```
+## enumerate()-python内置函数
+
+enumerate()函数是python内置函数，作用是把一个可遍历的数据对象组合为一个索引序列，同时列出数据和数据下标，一般用在for循环当中
+
+```python
+
+        out = x
+        for i, layer in enumerate(self.layers):
+            out = layer(ctx=ctx_emb, x=out)
+            if i < len(self.layers) - 1:
+                out = self.act(out)
+
+实现循环遍历self.layers中的每一个网络层,如果不是最后一个网络层，则进行激活函数
+
+
+```
 
 
 ## Tensor和tensor
@@ -291,6 +307,9 @@ print(x.grad)
 
 在不改变Tensor元素总数和数据内容的前提下，重新解释x的形状
 
+## torch.randn_like(x)
+
+生成一个和x形状相同的服从标准正态分布的随机Tensor
 
 ## x.squeeze()
 
@@ -331,4 +350,16 @@ C = torch.cat([A, B], dim=1)
 betas = torch.cat([torch.zeros([1]), betas], dim=0)
 # 可以实现下标从0开始到下标从1开始
 ```
+
+## F.mse_loss(input,target,reduction='')
+
+一般都是import torch.nn.functional as F
+
+所以这个函数一般都是用F.mse_loss()表示
+
+input:模型预测值
+
+target:真实目标值
+
+reduction:如何汇总误差值,reduction='mean'返回平均值,reduction='sum'返回求和,reduction='none'返回每个样本的误差值(是一个Tensor)
 
