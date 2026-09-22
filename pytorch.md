@@ -39,7 +39,7 @@ MyClass.method(obj, 10)     # 等价写法（不常用）
 ```python
 class Net(nn.Module):# 表示Net这个类继承自nn.Module这个类
     def __init__(self):
-        super().__init__()
+        super().__init__()    #这是python中继承的语法，表示调用父类的构造函数
         self.fc1 = nn.Linear(10, 20)
         self.dropout = nn.Dropout(p=0.3)
         self.fc2 = nn.Linear(20, 1)
@@ -243,6 +243,29 @@ def freeze_model(model: torch.nn.Module) -> None:
         parameter.grad = None
 ```
 
+## torch.max()
+
+```python
+# 求整个tensor的最大值
+import torch
+
+x = torch.tensor([
+    [1, 5, 3],
+    [4, 2, 6]
+])
+
+m = torch.max(x)
+
+print(m)
+
+# 沿某个维度求最大值
+values, indices = torch.max(x, dim=1)
+
+# keepdim=True
+
+被压缩的维度仍然保留,只是元素个数变成1
+```
+
 ## detach()
 
 ```python
@@ -263,3 +286,49 @@ b.backward()
 
 print(x.grad)
 ```
+
+## x.view()
+
+在不改变Tensor元素总数和数据内容的前提下，重新解释x的形状
+
+
+## x.squeeze()
+
+吧Tensor中长度为1的维度删掉
+
+
+## torch.linspace
+
+torch.linspace(a,b,steps=n)
+在a,b,之间包括端点生成n个数
+
+```python
+torch.linspace(0.1, 0.5, steps=5)
+#得到tensor([0.1, 0.2, 0.3, 0.4, 0.5])
+```
+
+## torch.cat
+
+张量拼接
+
+```python
+torch.cat([tensors],dim=k)
+
+将tensors中的张量沿着第k个维度拼接起来
+
+A.shape = (2, 3)
+B.shape = (4, 3)
+
+C = torch.cat([A, B], dim=0)
+# C.shape = (6, 3)
+
+A.shape = (2, 3)
+B.shape = (2, 5)
+
+C = torch.cat([A, B], dim=1)
+# C.shape = (2, 8)
+
+betas = torch.cat([torch.zeros([1]), betas], dim=0)
+# 可以实现下标从0开始到下标从1开始
+```
+
