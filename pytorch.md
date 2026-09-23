@@ -363,3 +363,13 @@ target:真实目标值
 
 reduction:如何汇总误差值,reduction='mean'返回平均值,reduction='sum'返回求和,reduction='none'返回每个样本的误差值(是一个Tensor)
 
+## numel()
+
+返回张量中元素的总数
+
+## flatten()
+
+将张量展平为一维张量
+
+
+
