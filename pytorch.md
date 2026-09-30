@@ -117,6 +117,26 @@ Parameter : 模型要学习的参数
 Buffer : 模型运行必须但不学习的状态
 ```
 
+## torch.no_grad()
+
+torch.no_grad()函数可以用来禁用梯度计算，从而节省内存和计算时间
+有两种使用方法:
+
+```python
+# 方法1:使用with语句
+# 这种方法在with语句中的代码不会计算梯度
+with torch.no_grad():
+    # 这里的代码不会计算梯度
+    z = encoder(target)
+    z_target,_=z
+
+# 方法2:@torch.no_grad()装饰器
+# 这种方法可以对整个函数关闭梯度计算
+@torch.no_grad()
+def forward(self, x):
+    return self.fc1(x)
+```
+
 ## backward
 
 ### 标量loss
@@ -362,4 +382,13 @@ input:模型预测值
 target:真实目标值
 
 reduction:如何汇总误差值,reduction='mean'返回平均值,reduction='sum'返回求和,reduction='none'返回每个样本的误差值(是一个Tensor)
+
+##     torch.manual_seed(seed)
+
+
+直接将torch的随机数生成种子固定
+
+## 优化器专题
+
+### 梯度下降家族
 
