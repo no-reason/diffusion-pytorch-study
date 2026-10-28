@@ -390,5 +390,62 @@ reduction:如何汇总误差值,reduction='mean'返回平均值,reduction='sum'�
 
 ## 优化器专题
 
-### 梯度下降家族
+Pytorch中的优化器相较于优化方法课内学习的算法而言，更加偏向于工程
 
+常用的优化器是:
+- SGD :随机梯度下降法(和最速下降法的区别在于每次只使用一个样本/一小批样本估计梯度)
+- Adam :自适应学习率+动量（momentum，指的是这次的下降方法和之前的梯度方向有关）
+- AdamW:在Adam的自适应更新梯度之外,单独对参数进行衰减
+
+```python
+# 最基本的SGD
+optimizer = torch.optim.SGD(
+    model.parameters(),
+    lr=0.01
+)
+
+# 带Momentum的SGD
+
+optimizer = torch.optim.SGD(
+    model.parameters(),
+    lr=0.01,
+    momentum=0.9
+)
+
+# SGD的常见参数
+
+optimizer = torch.optim.SGD(
+    model.parameters(),
+    lr=0.01,
+    momentum=0.9,
+    weight_decay=1e-4,
+    nesterov=True
+)
+
+lr：学习率
+momentum：动量系数
+weight_decay：权重衰减
+nesterov：是否使用 Nesterov 动量
+
+# Adam通常会维护两个状态:
+1.一阶矩:梯度的指数移动平均
+2.二阶矩:梯度平方的指数移动平均
+optimizer = torch.optim.Adam(
+    model.parameters(),
+    lr=1e-3,
+    betas=(0.9, 0.999),
+    eps=1e-8,
+    weight_decay=0.0,
+    amsgrad=False
+)
+lr：学习率
+betas=(beta1, beta2)：一阶矩和二阶矩的衰减系数
+eps：防止除零
+weight_decay：权重衰减参数
+amsgrad：是否使用 AMSGrad 变体
+```
+```python
+scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.steps, eta_min=args.lr * 0.05)
+
+#自动调节学习率
+```
